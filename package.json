@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "caniuse-lite": "^1.0.30001632",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -69,12 +70,17 @@
     "@storybook/preset-create-react-app": "^3.2.0",
     "@storybook/react": "^6.3.7",
     "@types/styled-components": "^5.1.12",
-    "caniuse-lite": "^1.0.30001632",
     "concurrently": "^6.2.1",
     "json-server": "^0.16.3",
     "msw": "^0.34.0",
     "nodemon": "^2.0.12",
     "wait-on": "^6.0.0"
+  },
+  "overrides": {
+    "caniuse-lite": "1.0.30001632"
+  },
+  "resolutions": {
+    "caniuse-lite": "1.0.30001632"
   },
   "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
 }
