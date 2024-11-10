@@ -157,7 +157,7 @@ export function AddWallet({isOpen, openModal, refetchAccounts}: IAddWallet){
             setTimeout(() => {
                 setSubmitting(false)
                 openModal(false)
-            }, 6000)
+            }, 600)
           }
 
         } catch (err) {
@@ -205,7 +205,7 @@ export function AddWallet({isOpen, openModal, refetchAccounts}: IAddWallet){
                {createError ? ( <CreateDivError>
                     <DivErrorTitle>
                         <IconError src={NetWorkFailedIcon} alt='network failed icon'/>
-                        <Span color='#D72C0D'>Network Error</Span>
+                        <Span color='#D72C0D'>Network error</Span>
                     </DivErrorTitle>
                     <CloseErrorButton onClick={() => setCreateError('')}>X</CloseErrorButton>
                 </CreateDivError>): null}

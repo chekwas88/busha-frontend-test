@@ -121,13 +121,16 @@ const getCoinIcon = (currency: string): string => {
     return ''
 }
 
-const Account = ({imgURL, currency, name, balance, type}: IAccount) => {
+const Account = ({ currency, name, balance, type }: IAccount) => {
     const getBalance = (): string => {
         if(type === 'fiat') return new Intl.NumberFormat('en-NG', {
+            maximumFractionDigits: 8,
+            minimumFractionDigits: 0,
             style: 'currency',
-            currency,
-        }).format(Number(balance))
-        return `${balance} ${currency}`
+            currency
+        }).format(parseFloat(balance))
+
+        return `${balance } ${currency}`
     }
    return(
     <AccountItem>

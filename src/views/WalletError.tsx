@@ -44,7 +44,7 @@ export function WalletError({retry, openModal}: IWalletError){
                 <CloseButton onClick={() => openModal(false)}>X</CloseButton>
                 <DivError>!</DivError>
                 <div><Span>Network Error</Span></div>
-                <Button onClick={retry}>Try Again</Button>
+                <Button onClick={retry}>Try again</Button>
             </ErrorWrapper>
         </>
     )

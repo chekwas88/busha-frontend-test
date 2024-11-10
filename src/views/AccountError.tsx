@@ -66,7 +66,7 @@ export function AccountError({ retry, toggleRefetch }: IAccountError){
             <ErrorWrapper>
             <ErrorSign />
                 <div><Span>Network Error</Span></div>
-                <Button onClick={() => retry(!toggleRefetch)}>Try Again</Button>
+                <Button onClick={() => retry(!toggleRefetch)}>Try again</Button>
             </ErrorWrapper>
         </>
     )

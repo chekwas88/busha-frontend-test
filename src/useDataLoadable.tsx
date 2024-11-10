@@ -25,7 +25,7 @@ const useDataLoadable = (url:string) => {
     useEffect(() => {
         // Simulate Loading
         setLoading(true)
-        const timeId = setTimeout(fetchData, 5000)
+        const timeId = setTimeout(fetchData, 500)
         return () => clearTimeout(timeId)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchData, toggleRefetch])
