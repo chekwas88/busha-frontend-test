@@ -1,5 +1,11 @@
+import { Account } from './views/AccountView'
+
+
 function App() {
-  return <h1>Busha</h1>;
+  return <div>
+    <Account />
+  </div>;
 }
 
 export default App;
+
