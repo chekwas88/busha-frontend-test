@@ -18,22 +18,23 @@ interface IAccounts {
 const TopWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
 `
 const AddButton = styled.button`
     font-weight: 500;
     font-size: 16px;
     color: #000000;
-    margin-bottom: .5rem;
     background-color: transparent;
     border: 2px solid transparent;
     padding: 8px;
     cursor: pointer;
+    align-self: flex-end;
+    height: 50px;
     &:focus {
         outline-color: none;
     }
-    &:hover {
-        background: #D3D5D880;
+   
   }
 
 `
