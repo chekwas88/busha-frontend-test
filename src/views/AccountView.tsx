@@ -5,7 +5,8 @@ import { AccountList } from './AccountsList'
 import { AccountError } from './AccountError'
 import { AddWallet } from './AddWallet'
 import useDataLoadable from '../useDataLoadable'
-import { useState } from 'react'
+import { Dispatch, useState } from 'react'
+import { Sidebar, Menu, MobileMenu } from './MobileMenu'
 
 const Header = styled.header`
     height: 56px;
@@ -21,6 +22,16 @@ const HeaderWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+     @media (max-width: 1024px) {
+        width: 100%;
+        padding: 0 .5rem;
+    }
+    @media (max-width: 640px) {
+         width: 100%;
+         padding: 0 .5rem;
+    }
+   
 `
 
 const NameContainer = styled.div`
@@ -44,16 +55,37 @@ const Span = styled.span`
     font-weight: 500;
     font-size: 14px;
     color: #3E4C59;
+
+    @media (max-width: 640px) {
+        font-size: 12px;
+        display: none;
+    }
 `
 const Img = styled.img`
     width: 120px;
     height: 28px;
+
+     @media (max-width: 64px) {
+        width: 80px;
+        height: 20px;
+    }
 `
 const Container = styled.div`
     width: 80%;
     display: flex;
     justify-content: space-between;
     gap: 4rem;
+
+     @media (max-width: 1024px) {
+        width: 100%;
+        gap: 2rem;
+    }
+
+    @media (max-width: 640px) {
+        width: 100%;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
     
 `
 
@@ -61,39 +93,50 @@ const ContainerWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 1024px) {
+        padding: 0 .5rem;
+    }
 `
 
-const Sidebar = styled.aside`
-    display: flex;
-    flex-direction: column;
-    margin-top: 40px;
+const DivBurger = styled.div`
    
-`
-
-const MenuWrapper = styled.ul`
-    padding: 0px;
-    margin: 0px;
-    list-style:none
-    display: flex;
-    flex-direction: column;
-`
-const MenuItem = styled.li<{isActive?: boolean}>`
-    display: flex;
-    align-items: center;
-    background-color: ${({ isActive }) => (isActive ? "#F5F7FA" : "transparent")};
-    width: 200px;
-    height: 44px;
-    border-radius: 3px 0px 0px 0px;
-    font-weight: ${({ isActive }) => (isActive ? "500" : "400")};
-
-`
-
-const Link = styled.a
-    `
-   padding-left: 1rem;
-   color: #3E4C59
+    height: 4px;
+    background-color: #000000;
+    margin: 5px 0;
     
 `
+
+const HamburgerContainer = styled.button`
+    display: none;
+    @media (max-width: 640px) {
+        display: block;
+        width: 35px;
+        padding: 0 2px;
+        background-color: transparent;
+        border: 2px solid transparent;
+        cursor: pointer;
+
+    }
+
+`
+
+const Div = styled.div`
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+`
+
+const Hamburger = ({showMobileOpen}: {showMobileOpen:Dispatch<React.SetStateAction<boolean>>}) => {
+    return (
+        <HamburgerContainer onClick={() => showMobileOpen(true)}>
+            <DivBurger></DivBurger>
+            <DivBurger></DivBurger>
+            <DivBurger></DivBurger>
+        </HamburgerContainer>
+    )
+}
    
 
 
@@ -104,31 +147,22 @@ const Main = styled.main`
 `
 
 
-const menuitems = [
-    'Wallets',
-    'Prices',
-    'Peer2Peer',
-    'Activities',
-    'Settings'
-]
 
-const Menu = () => {
-    return <MenuWrapper>
-        {menuitems.map((item, index) => (
-            <MenuItem isActive={index === 0} key={item}><Link>{item}</Link></MenuItem>
-        ))}
-    </MenuWrapper>
 
-}
+
 
 
 export function Account() {
     const [isOpen, setOpen] = useState<boolean>(false)
-    const {isLoading, error, data, refetch, toggleRefetch} = useDataLoadable('http://localhost:3090/accounts')
+    const {isLoading, error, data, refetch, toggleRefetch} = useDataLoadable('https://my-json-server.typicode.com/bushaHQ/busha-frontend-test/accounts', "account")
+    const [isMobileMenu, setIsMobileMenu] = useState<boolean>(false)
     return <>
         <Header>
             <HeaderWrapper>
-                <Img src={logo} alt='company-logo' />
+                <Div>
+                    <Hamburger showMobileOpen={setIsMobileMenu} />
+                    <Img src={logo} alt='company-logo' />
+                </Div>
                 <NameContainer>
                     <Initial>O</Initial>
                     <Span>Oluwatobi Akindunjoye</Span>
@@ -148,7 +182,8 @@ export function Account() {
                     
                 </Main>
             </Container>
-            {isOpen ?  <AddWallet isOpen={isOpen} openModal={setOpen} refetchAccounts={() => refetch(!toggleRefetch)}/>: null}
+            {isOpen ?  <AddWallet isOpen={isOpen} openModal={setOpen} />: null}
+            {isMobileMenu ? <MobileMenu isOpen={isMobileMenu} openModal={setIsMobileMenu}/>: null}
         </ContainerWrapper>
     </>
 }

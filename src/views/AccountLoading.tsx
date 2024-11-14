@@ -7,7 +7,16 @@ export const Caption = styled.h4`{
     font-size: 32px;
     line-height: 32px;
     margin-bottom: 1rem;
+    @media (max-width: 1024px) {
+        font-size: 20px;
+        line-height: 20px;
+    }
 
+    @media (max-width: 640px) {
+        font-size: 16px;
+        line-height: 16px;
+    }
+    
 }`
 
 const LoaderWrapper = styled.div`
@@ -15,6 +24,9 @@ const LoaderWrapper = styled.div`
     justify-content: center;
     align-items: center;
     padding-top: 3rem;
+    @media (max-width: 640px) {
+        padding-top: 2rem;
+    }
 
 `
 

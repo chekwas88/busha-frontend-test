@@ -1,26 +1,33 @@
 
 import {useState, useEffect, useCallback} from 'react'
 import { IAccount } from './util'
+import { useAccountContext } from './context'
 
-const useDataLoadable = (url:string) => {
-    const [data, setData] = useState<IAccount[]>([])
+const useDataLoadable = (url:string, type:string) => {
     const [isLoading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string>('')
+    const [data, setData] = useState<IAccount[]>([])
     const [toggleRefetch, setRefetch] = useState<boolean>(false)
-
+    const {addAccounts, accounts} = useAccountContext()
     const fetchData = useCallback(async () => {
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error("Network error");
             const data = await response.json();
-            setData(data);
+           
+            if(type === "account"){
+                addAccounts(data)
+            }else{
+                 setData(data);
+            }
+            
             
         } catch (err) {
             setError("Network error");
         } finally {
             setLoading(false);
         }
-    }, [url])
+    }, [url, addAccounts, type])
 
     useEffect(() => {
         // Simulate Loading
@@ -34,7 +41,7 @@ const useDataLoadable = (url:string) => {
     return {
         isLoading,
         error,
-        data,
+        data: type === "account" ? accounts : data,
         refetch: (b:boolean) => setRefetch(b),
         toggleRefetch,
         

@@ -18,7 +18,6 @@ interface IAccounts {
 const TopWrapper = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
 
 `
 const AddButton = styled.button`
@@ -44,11 +43,34 @@ const Divider = styled.div`
 `
 
 const AccountContainer = styled.ul`
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 3rem;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    justify-content: space-evenly;
+    justify-items: center;
+    align-content: space-evenly;
+    align-items: center;
     list-style-type: none;
+    
     padding: 0;
+    background: transparent;
+    
+
+    @media (max-width: 1024px) {
+        gap: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        
+    }
+
+    @media (max-width: 640px) {
+        gap: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        
+    }
+
 
 `
 
@@ -75,6 +97,21 @@ const AccountItem = styled.li`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    
+    @media (max-width: 1024px) {
+        width: 210px;
+        height: 120px;
+    }
+
+     @media (max-width: 820px) {
+        width: 140px;
+         height: 110px;
+    }
+     @media (max-width: 640px) {
+        width: 150px;
+        height: 100px;
+       
+    }
 
 `
 const ForwardDiv = styled.div`
@@ -97,6 +134,14 @@ const Balance = styled.p`
     color: #ffffff;
     font-size: 16px;
     font-weight: 500;
+
+    @media (max-width: 1024px) {
+        font-size: 14px;
+    }
+
+     @media (max-width: 640px) {
+        font-size: 12px;
+    }
 
 `
 

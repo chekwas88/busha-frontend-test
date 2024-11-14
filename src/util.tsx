@@ -1,3 +1,5 @@
+import { Dispatch } from "react";
+
 export interface IAccount {
     id: string;
     name: string;
@@ -16,4 +18,10 @@ export interface IWallet {
     imgURL: string;
     currency: string;
 }
+
+export interface IModal {
+    isOpen: boolean;
+    openModal: Dispatch<React.SetStateAction<boolean>>
+}
+
 

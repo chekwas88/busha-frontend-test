@@ -4,15 +4,12 @@ import Modal from '../components/shared/Modal'
 import { Button } from './AccountError';
 import { WalletError } from './WalletError';
 import NetWorkFailedIcon from '../assets/Icon.png'
-import { Dispatch, useState } from 'react';
+import { useState } from 'react';
 import useDataLoadable from '../useDataLoadable';
+import { useAccountContext } from '../context';
+import { IAccount, IModal } from '../util';
 
 
-interface IAddWallet {
-    isOpen: boolean;
-    openModal: Dispatch<React.SetStateAction<boolean>>
-    refetchAccounts: () => void
-}
 
 const LoaderWrapper = styled.div`
     display: flex;
@@ -46,17 +43,35 @@ const Form = styled.form`
 const Label = styled.label`
     color: #3E4C59;
     font-size: 16px;
-    font-weight: 500px;
+    font-weight: 700;
+
+    @media (max-width: 1024px) {
+       font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+        font-size: 12px;
+    }
+   
 `
 
 const Div = styled.div`
     width: 100%;
 `
 
-const Span = styled.span<{size?: number, color?: string}>`
+const Span = styled.span<{color?: string}>`
     font-weight: 500;
-    font-size: ${({ size }) => (size ? size : "16px")};
+    font-size: 16px;
     color: ${({ color }) => (color ? color : "#000000")};
+
+    @media (max-width: 1024px) {
+       font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+        font-size: 12px;
+    }
+   
 `
 const CloseButton = styled.button`
     background-color: transparent;
@@ -79,6 +94,16 @@ const Paragraph = styled.p`
     font-weight: 400;
     font-size: 18px;
     margin: 2rem 0;
+
+    @media (max-width: 1024px) {
+       font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+        font-size: 12px;
+    }
+    
+   
 
 `
 
@@ -133,17 +158,17 @@ const DivErrorTitle = styled.div`
 
 
 
-export function AddWallet({isOpen, openModal, refetchAccounts}: IAddWallet){
-    const {isLoading, error, data, refetch, toggleRefetch} = useDataLoadable('http://localhost:3090/wallets')
+export function AddWallet({isOpen, openModal}: IModal){
+    const {isLoading, error, data, refetch, toggleRefetch} = useDataLoadable('https://my-json-server.typicode.com/bushaHQ/busha-frontend-test/wallets', "wallet")
     const [createError, setCreateError] = useState<string>('')
     const [selectedWallet, setSelectedWallet] = useState<string>('')
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
-
+    const {addAccounts} = useAccountContext()
     const createWallet = async () => {
         try {
           setCreateError('');
           setSubmitting(true)
-          const response = await fetch("http://localhost:3090/accounts", {
+          const response = await fetch("https://my-json-server.typicode.com/bushaHQ/busha-frontend-test/accounts", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -153,7 +178,25 @@ export function AddWallet({isOpen, openModal, refetchAccounts}: IAddWallet){
           if (!response.ok){
             throw new Error("Network error");
           }else{
-            refetchAccounts()
+            const result:IAccount = await response.json()
+            const newAccount = {
+                pending_balance: "0",
+                balance: "0",
+                currency: result.currency,
+                name: data.filter(w => w.currency === result.currency)[0].name,
+                type: 'digital',
+                id: result.id,
+                deposit: false,
+                payout: false,
+                imgURL: '',
+  
+            }
+
+            addAccounts((prev) => {
+                if(prev.some(s => s.currency === newAccount.currency)) return prev
+                return [...prev, newAccount]
+            })
+
             setTimeout(() => {
                 setSubmitting(false)
                 openModal(false)
@@ -164,7 +207,7 @@ export function AddWallet({isOpen, openModal, refetchAccounts}: IAddWallet){
           setCreateError("Network error");
           setSubmitting(false)
         } finally {
-          setSelectedWallet("");
+            setSelectedWallet("");
         }
     }
 

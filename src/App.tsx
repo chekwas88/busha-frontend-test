@@ -1,9 +1,12 @@
+import { AccountProvider } from './context';
 import { Account } from './views/AccountView'
 
 
 function App() {
   return <div>
-    <Account />
+    <AccountProvider>
+      <Account />
+    </AccountProvider>
   </div>;
 }
 
